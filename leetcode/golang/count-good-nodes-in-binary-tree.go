@@ -7,7 +7,7 @@
  * }
  */
 
-func DFSPostOrder(node *TreeNode, count *int, max int) {
+func DFS(node *TreeNode, count *int, max int) {
     if node == nil { return }
     
     if node.Val >= max {
@@ -15,8 +15,8 @@ func DFSPostOrder(node *TreeNode, count *int, max int) {
         *count++
     }
 
-    DFSPostOrder(node.Left, count, max)
-    DFSPostOrder(node.Right, count, max)
+    DFS(node.Left, count, max)
+    DFS(node.Right, count, max)
 }
 
 func goodNodes(root *TreeNode) int {
@@ -26,6 +26,6 @@ func goodNodes(root *TreeNode) int {
     var max int = root.Val
     var count int
 
-    DFSPostOrder(root, &count, max)
+    DFS(root, &count, max)
     return count
 }

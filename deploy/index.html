@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Trees Cheatsheet - NeetCode</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tree" patternUnits="userSpaceOnUse" width="50" height="50"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><line x1="25" y1="25" x2="15" y2="40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="25" y1="25" x2="35" y2="40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23tree)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 0;
+        }
+        
+        .nav {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .nav h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        
+        .nav-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #495057;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+        
+        .problem {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .complexity {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .complexity-item {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 2px solid #e9ecef;
+        }
+        
+        .time { border-color: #28a745; color: #28a745; }
+        .space { border-color: #17a2b8; color: #17a2b8; }
+        
+        .approach {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .approach h4 {
+            color: #28a745;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .steps {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .steps h4 {
+            color: #ffc107;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .steps ol {
+            padding-left: 20px;
+        }
+        
+        .steps li {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            color: #d4d4d4;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .number { color: #b5cea8; }
+        
+        .key-points {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .key-points h4 {
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .key-points ul {
+            padding-left: 20px;
+        }
+        
+        .key-points li {
+            margin-bottom: 6px;
+        }
+        
+        .tip {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .tip strong {
+            color: #1976d2;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .section { break-inside: avoid; }
+        }
+        
+        @media (max-width: 768px) {
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 2rem; }
+            .section { padding: 30px 20px; }
+            .nav { padding: 20px; }
+            .complexity { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌳 Binary Trees Cheatsheet</h1>
+            <p>Complete guide to tree algorithms - NeetCode style</p>
+        </div>
+        
+        <div class="content">
+            <div class="nav">
+                <h3>📋 Problems Covered</h3>
+                <div class="nav-grid">
+                    <div class="nav-item">🔍 Maximum Depth of Binary Tree</div>
+                    <div class="nav-item">⚖️ Balanced Binary Tree</div>
+                    <div class="nav-item">🔄 Invert Binary Tree</div>
+                    <div class="nav-item">🔗 Same Tree</div>
+                    <div class="nav-item">📦 Subtree of Another Tree</div>
+                    <div class="nav-item">📐 Diameter of Binary Tree</div>
+                    <div class="nav-item">🚶 Binary Tree Inorder Traversal</div>
+                    <div class="nav-item">📊 Binary Tree Level Order Traversal</div>
+                    <div class="nav-item">👁️ Binary Tree Right Side View</div>
+                    <div class="nav-item">🏗️ Construct Tree from Preorder & Inorder</div>
+                    <div class="nav-item">✅ Validate Binary Search Tree</div>
+                    <div class="nav-item">🔍 Search in BST</div>
+                    <div class="nav-item">➕ Insert into BST</div>
+                    <div class="nav-item">❌ Delete Node in BST</div>
+                    <div class="nav-item">🌟 Count Good Nodes</div>
+                    <div class="nav-item">🔄 Lowest Common Ancestor</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🔍 Tree Traversal & Basic Operations</h2>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Maximum Depth of Binary Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use DFS (recursion) to find the maximum depth. The depth of a tree is 1 + max depth of its subtrees.</p>
+                    </div>
+                    <div class="steps">
+                        <h4>📝 Steps</h4>
+                        <ol>
+                            <li>Base case: if root is None, return 0</li>
+                            <li>Recursively find depth of left subtree</li>
+                            <li>Recursively find depth of right subtree</li>
+                            <li>Return 1 + maximum of left and right depths</li>
+                        </ol>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">maxDepth</span>(self, root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="number">0</span>
+    
+    ml = self.<span class="function">maxDepth</span>(root.left)
+    mr = self.<span class="function">maxDepth</span>(root.right)
+    
+    <span class="keyword">return</span> <span class="number">1</span> + <span class="function">max</span>(ml, mr)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Binary Tree Inorder Traversal</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Inorder: Left → Root → Right. Use recursion to traverse and collect values.</p>
+                    </div>
+                    <div class="steps">
+                        <h4>📝 Steps</h4>
+                        <ol>
+                            <li>Traverse left subtree</li>
+                            <li>Visit root (add to result)</li>
+                            <li>Traverse right subtree</li>
+                        </ol>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">inorderTraversal</span>(self, root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> []
+    
+    self.<span class="function">inorderTraversal</span>(root.left)
+    self.results.<span class="function">append</span>(root.val)
+    self.<span class="function">inorderTraversal</span>(root.right)
+    
+    <span class="keyword">return</span> self.results</code></pre>
+                    </div>
+                    <div class="tip">
+                        <strong>💡 Pro Tip:</strong> For iterative approach, use a stack. Push all left nodes first, then process and go right.
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Binary Tree Level Order Traversal</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(w)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use BFS with a queue. Process each level completely before moving to the next.</p>
+                    </div>
+                    <div class="steps">
+                        <h4>📝 Steps</h4>
+                        <ol>
+                            <li>Initialize queue with root</li>
+                            <li>For each level, process all nodes currently in queue</li>
+                            <li>Add children to queue for next level</li>
+                            <li>Store each level as a separate list</li>
+                        </ol>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">levelOrder</span>(self, root):
+    queue = <span class="function">deque</span>()
+    result = []
+    
+    <span class="keyword">if</span> root:
+        queue.<span class="function">append</span>(root)
+    
+    <span class="keyword">while</span> <span class="function">len</span>(queue) > <span class="number">0</span>:
+        level = []
+        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(queue)):
+            curr = queue.<span class="function">popleft</span>()
+            level.<span class="function">append</span>(curr.val)
+            <span class="keyword">if</span> curr.left:
+                queue.<span class="function">append</span>(curr.left)
+            <span class="keyword">if</span> curr.right:
+                queue.<span class="function">append</span>(curr.right)
+        result.<span class="function">append</span>(level)
+    
+    <span class="keyword">return</span> result</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">⚖️ Tree Properties & Validation</h2>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Balanced Binary Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Check balance condition while calculating depth. A tree is balanced if height difference between subtrees ≤ 1.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">maxDepth</span>(self, root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="number">0</span>, <span class="keyword">True</span>
+    
+    ld, leftBal = self.<span class="function">maxDepth</span>(root.left)
+    rd, rightBal = self.<span class="function">maxDepth</span>(root.right)
+    
+    <span class="keyword">if</span> <span class="keyword">not</span> leftBal <span class="keyword">or</span> <span class="keyword">not</span> rightBal <span class="keyword">or</span> <span class="function">abs</span>(ld - rd) > <span class="number">1</span>:
+        <span class="keyword">return</span> <span class="number">1</span> + <span class="function">max</span>(ld, rd), <span class="keyword">False</span>
+    
+    <span class="keyword">return</span> <span class="number">1</span> + <span class="function">max</span>(ld, rd), <span class="keyword">True</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Validate Binary Search Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use DFS with bounds. Each node must be within valid range based on ancestors.</p>
+                    </div>
+                    <div class="steps">
+                        <h4>📝 Steps</h4>
+                        <ol>
+                            <li>Start with infinite bounds</li>
+                            <li>For left child: update max bound to current node value</li>
+                            <li>For right child: update min bound to current node value</li>
+                            <li>Check if current node violates bounds</li>
+                        </ol>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">validate</span>(self, root, minVal, maxVal):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="keyword">True</span>
+    
+    <span class="keyword">if</span> (root.val <= minVal) <span class="keyword">or</span> (root.val >= maxVal):
+        <span class="keyword">return</span> <span class="keyword">False</span>
+    
+    <span class="keyword">return</span> (self.<span class="function">validate</span>(root.left, minVal, root.val) <span class="keyword">and</span> 
+            self.<span class="function">validate</span>(root.right, root.val, maxVal))</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Same Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Recursively compare nodes. Check structure and values simultaneously.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">isSameTree</span>(self, p, q):
+    <span class="keyword">if</span> <span class="keyword">not</span> p <span class="keyword">and</span> <span class="keyword">not</span> q:
+        <span class="keyword">return</span> <span class="keyword">True</span>
+    
+    <span class="keyword">if</span> (<span class="keyword">not</span> p <span class="keyword">and</span> q) <span class="keyword">or</span> (<span class="keyword">not</span> q <span class="keyword">and</span> p):
+        <span class="keyword">return</span> <span class="keyword">False</span>
+    
+    <span class="keyword">return</span> (p.val == q.val <span class="keyword">and</span> 
+            self.<span class="function">isSameTree</span>(p.left, q.left) <span class="keyword">and</span>
+            self.<span class="function">isSameTree</span>(p.right, q.right))</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🏗️ Tree Construction & Modification</h2>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Invert Binary Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Recursively swap left and right children of each node.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">invertTree</span>(self, root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span>
+    
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    
+    self.<span class="function">invertTree</span>(root.left)
+    self.<span class="function">invertTree</span>(root.right)
+    
+    <span class="keyword">return</span> root</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Construct Binary Tree from Preorder and Inorder</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(n)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use first element of preorder as root, find it in inorder to split left/right subtrees.</p>
+                    </div>
+                    <div class="steps">
+                        <h4>📝 Steps</h4>
+                        <ol>
+                            <li>First element in preorder is always root</li>
+                            <li>Find root in inorder to determine left/right subtrees</li>
+                            <li>Split preorder and inorder accordingly</li>
+                            <li>Recursively build left and right subtrees</li>
+                        </ol>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">buildTree</span>(self, preorder, inorder):
+    <span class="keyword">if</span> <span class="keyword">not</span> preorder <span class="keyword">or</span> <span class="keyword">not</span> inorder:
+        <span class="keyword">return</span> <span class="keyword">None</span>
+    
+    root = <span class="function">TreeNode</span>(preorder[<span class="number">0</span>])
+    root_index = inorder.<span class="function">index</span>(preorder[<span class="number">0</span>])
+    
+    root.left = self.<span class="function">buildTree</span>(preorder[<span class="number">1</span>:root_index + <span class="number">1</span>], 
+                                   inorder[:root_index])
+    root.right = self.<span class="function">buildTree</span>(preorder[root_index + <span class="number">1</span>:], 
+                                    inorder[root_index + <span class="number">1</span>:])
+    
+    <span class="keyword">return</span> root</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🔍 Binary Search Tree Operations</h2>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Search in BST</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(h)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use BST property: left < root < right. Navigate based on comparison.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">searchBST</span>(self, root, val):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="keyword">None</span>
+    
+    <span class="keyword">if</span> val > root.val:
+        <span class="keyword">return</span> self.<span class="function">searchBST</span>(root.right, val)
+    <span class="keyword">elif</span> val < root.val:
+        <span class="keyword">return</span> self.<span class="function">searchBST</span>(root.left, val)
+    <span class="keyword">else</span>:
+        <span class="keyword">return</span> root</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Insert into BST</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(h)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">insertIntoBST</span>(self, root, val):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="function">TreeNode</span>(val)
+    
+    <span class="keyword">if</span> val > root.val:
+        root.right = self.<span class="function">insertIntoBST</span>(root.right, val)
+    <span class="keyword">if</span> val < root.val:
+        root.left = self.<span class="function">insertIntoBST</span>(root.left, val)
+    
+    <span class="keyword">return</span> root</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Delete Node in BST</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(h)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Three cases: 1) No children - delete directly, 2) One child - replace with child, 3) Two children - replace with inorder successor.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">deleteNode</span>(self, root, key):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="keyword">None</span>
+    
+    <span class="keyword">if</span> key > root.val:
+        root.right = self.<span class="function">deleteNode</span>(root.right, key)
+    <span class="keyword">elif</span> key < root.val:
+        root.left = self.<span class="function">deleteNode</span>(root.left, key)
+    <span class="keyword">else</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> root.right:
+            <span class="keyword">return</span> root.left
+        <span class="keyword">elif</span> <span class="keyword">not</span> root.left:
+            <span class="keyword">return</span> root.right
+        <span class="keyword">else</span>:
+            mNode = self.<span class="function">minNode</span>(root.right)
+            root.val = mNode.val
+            root.right = self.<span class="function">deleteNode</span>(root.right, mNode.val)
+    
+    <span class="keyword">return</span> root
+
+<span class="keyword">def</span> <span class="function">minNode</span>(self, root):
+    curr = root
+    <span class="keyword">while</span> curr <span class="keyword">and</span> curr.left:
+        curr = curr.left
+    <span class="keyword">return</span> curr</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🌟 Advanced Tree Problems</h2>
+                
+                <div class="problem">
+                    <h3 class="problem-title">Diameter of Binary Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Diameter = longest path between any two nodes. For each node, diameter = left_height + right_height.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">diameterOfBinaryTree</span>(self, root):
+    self.diameter = <span class="number">0</span>
+    
+    <span class="keyword">def</span> <span class="function">maxDepth</span>(root):
+        <span class="keyword">if</span> <span class="keyword">not</span> root:
+            <span class="keyword">return</span> <span class="number">0</span>
+        
+        ld = <span class="function">maxDepth</span>(root.left)
+        rd = <span class="function">maxDepth</span>(root.right)
+        
+        self.diameter = <span class="function">max</span>(self.diameter, ld + rd)
+        
+        <span class="keyword">return</span> <span class="number">1</span> + <span class="function">max</span>(ld, rd)
+    
+    <span class="function">maxDepth</span>(root)
+    <span class="keyword">return</span> self.diameter</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Binary Tree Right Side View</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(w)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use level-order traversal. For each level, take the last node processed.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">rightSideView</span>(self, root):
+    queue = <span class="function">deque</span>()
+    <span class="keyword">if</span> root:
+        queue.<span class="function">append</span>(root)
+    
+    result = []
+    <span class="keyword">while</span> <span class="function">len</span>(queue) > <span class="number">0</span>:
+        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(queue)):
+            curr = queue.<span class="function">popleft</span>()
+            <span class="keyword">if</span> curr.left:
+                queue.<span class="function">append</span>(curr.left)
+            <span class="keyword">if</span> curr.right:
+                queue.<span class="function">append</span>(curr.right)
+            rightmost = curr.val  <span class="comment"># Last node in level</span>
+        result.<span class="function">append</span>(rightmost)
+    
+    <span class="keyword">return</span> result</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Count Good Nodes in Binary Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>A node is "good" if its value ≥ maximum value on path from root. Use DFS with running max.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">goodNodes</span>(self, root):
+    <span class="keyword">def</span> <span class="function">preorder</span>(root, maxVal):
+        <span class="keyword">if</span> <span class="keyword">not</span> root:
+            <span class="keyword">return</span> <span class="number">0</span>
+        
+        count = <span class="number">1</span> <span class="keyword">if</span> root.val >= maxVal <span class="keyword">else</span> <span class="number">0</span>
+        newMax = <span class="function">max</span>(maxVal, root.val)
+        
+        count += <span class="function">preorder</span>(root.left, newMax)
+        count += <span class="function">preorder</span>(root.right, newMax)
+        
+        <span class="keyword">return</span> count
+    
+    <span class="keyword">return</span> <span class="function">preorder</span>(root, <span class="function">float</span>(<span class="string">'-inf'</span>))</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Subtree of Another Tree</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(m×n)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>For each node in main tree, check if subtree starting there matches target. Reuse "Same Tree" logic.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">isSubtree</span>(self, root, subRoot):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span> <span class="keyword">False</span>
+    
+    <span class="keyword">if</span> self.<span class="function">isSameTree</span>(root, subRoot):
+        <span class="keyword">return</span> <span class="keyword">True</span>
+    
+    <span class="keyword">return</span> (self.<span class="function">isSubtree</span>(root.left, subRoot) <span class="keyword">or</span> 
+            self.<span class="function">isSubtree</span>(root.right, subRoot))</code></pre>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">Lowest Common Ancestor of BST</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">Time: O(h)</span>
+                        <span class="complexity-item space">Space: O(h)</span>
+                    </div>
+                    <div class="approach">
+                        <h4>💡 Approach</h4>
+                        <p>Use BST property: if both nodes are in different subtrees of current node, current node is LCA.</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code><span class="keyword">def</span> <span class="function">lowestCommonAncestor</span>(self, root, p, q):
+    <span class="keyword">if</span> <span class="keyword">not</span> root <span class="keyword">or</span> root == p <span class="keyword">or</span> root == q:
+        <span class="keyword">return</span> root
+    
+    left = self.<span class="function">lowestCommonAncestor</span>(root.left, p, q)
+    right = self.<span class="function">lowestCommonAncestor</span>(root.right, p, q)
+    
+    <span class="keyword">if</span> <span class="keyword">not</span> right:
+        <span class="keyword">return</span> left
+    <span class="keyword">elif</span> <span class="keyword">not</span> left:
+        <span class="keyword">return</span> right
+    <span class="keyword">else</span>:
+        <span class="keyword">return</span> root</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🧠 Key Patterns & Mental Models</h2>
+                
+                <div class="key-points">
+                    <h4>🎯 Common Patterns</h4>
+                    <ul>
+                        <li><strong>DFS Recursive:</strong> Most tree problems can be solved with recursive DFS</li>
+                        <li><strong>Level Order (BFS):</strong> Use queue for level-by-level processing</li>
+                        <li><strong>Two-Pass Strategy:</strong> Sometimes solve subproblems first, then combine</li>
+                        <li><strong>Global Variables:</strong> Use class variables for values that need to persist across recursive calls</li>
+                        <li><strong>BST Properties:</strong> Left < Root < Right - exploit this for O(h) operations</li>
+                    </ul>
+                </div>
+                
+                <div class="problem">
+                    <h3 class="problem-title">🔄 Tree Traversal Methods</h3>
+                    <div class="steps">
+                        <h4>📝 Traversal Types</h4>
+                        <ol>
+                            <li><strong>Preorder:</strong> Root → Left → Right (useful for copying trees)</li>
+                            <li><strong>Inorder:</strong> Left → Root → Right (gives sorted order in BST)</li>
+                            <li><strong>Postorder:</strong> Left → Right → Root (useful for deleting trees)</li>
+                            <li><strong>Level Order:</strong> Level by level using queue (BFS)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="approach">
+                        <h4>💡 When to Use Each</h4>
+                        <p><strong>DFS:</strong> When you need to go deep first (height, validation, path problems)<br>
+                        <strong>BFS:</strong> When you need level information (level order, right side view, minimum depth)</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">⚡ Time & Space Complexity Guide</h3>
+                    <div class="complexity">
+                        <span class="complexity-item time">DFS: O(n) time, O(h) space</span>
+                        <span class="complexity-item space">BFS: O(n) time, O(w) space</span>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>Where:</strong> n = number of nodes, h = height of tree, w = maximum width of tree</p>
+                    
+                    <div class="tip">
+                        <strong>💡 Space Complexity Notes:</strong><br>
+                        • Balanced tree: h = O(log n)<br>
+                        • Skewed tree: h = O(n)<br>
+                        • BFS space depends on widest level
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">🛠️ Common Techniques</h3>
+                    <div class="steps">
+                        <h4>📝 Problem-Solving Strategies</h4>
+                        <ol>
+                            <li><strong>Base Case First:</strong> Always handle null nodes</li>
+                            <li><strong>Divide & Conquer:</strong> Solve for subtrees, then combine</li>
+                            <li><strong>Pass Information Down:</strong> Use parameters to pass context (bounds, path info)</li>
+                            <li><strong>Collect Information Up:</strong> Return values from recursive calls</li>
+                            <li><strong>Use Helper Functions:</strong> Keep main function clean</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">🚨 Common Mistakes to Avoid</h3>
+                    <div class="key-points">
+                        <h4>⚠️ Watch Out For</h4>
+                        <ul>
+                            <li>Forgetting to handle null/empty tree cases</li>
+                            <li>Not returning the modified tree in modification problems</li>
+                            <li>Using class variables without resetting them</li>
+                            <li>Confusing tree height vs depth (usually same, but context matters)</li>
+                            <li>In BST problems, forgetting that duplicates matter</li>
+                            <li>Stack overflow on deeply nested trees</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <h3 class="problem-title">📚 Quick Reference</h3>
+                    <div class="code-block">
+                        <pre><code><span class="comment"># Tree Node Definition</span>
+<span class="keyword">class</span> <span class="function">TreeNode</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, val=<span class="number">0</span>, left=<span class="keyword">None</span>, right=<span class="keyword">None</span>):
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="comment"># Basic DFS Template</span>
+<span class="keyword">def</span> <span class="function">dfs</span>(root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span>  <span class="comment"># base case</span>
+    
+    <span class="comment"># Process current node</span>
+    <span class="function">dfs</span>(root.left)   <span class="comment"># recurse left</span>
+    <span class="function">dfs</span>(root.right)  <span class="comment"># recurse right</span>
+
+<span class="comment"># Basic BFS Template</span>
+<span class="keyword">def</span> <span class="function">bfs</span>(root):
+    <span class="keyword">if</span> <span class="keyword">not</span> root:
+        <span class="keyword">return</span>
+    
+    queue = <span class="function">deque</span>([root])
+    <span class="keyword">while</span> queue:
+        node = queue.<span class="function">popleft</span>()
+        <span class="comment"># Process node</span>
+        <span class="keyword">if</span> node.left:
+            queue.<span class="function">append</span>(node.left)
+        <span class="keyword">if</span> node.right:
+            queue.<span class="function">append</span>(node.right)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h2 style="color: white; border-color: white;">🎯 Study Strategy</h2>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px;">📖 How to Use This Cheatsheet</h3>
+                    <ol style="padding-left: 20px;">
+                        <li style="margin-bottom: 10px;"><strong>First Pass:</strong> Read through all patterns and understand the approaches</li>
+                        <li style="margin-bottom: 10px;"><strong>Practice:</strong> Code each solution from memory</li>
+                        <li style="margin-bottom: 10px;"><strong>Time Yourself:</strong> Aim for 15-20 minutes per problem</li>
+                        <li style="margin-bottom: 10px;"><strong>Variations:</strong> Try iterative versions where applicable</li>
+                        <li style="margin-bottom: 10px;"><strong>Edge Cases:</strong> Test with empty tree, single node, skewed trees</li>
+                    </ol>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px;">
+                    <h3 style="margin-bottom: 15px;">🌟 Master These First</h3>
+                    <p style="margin-bottom: 15px;"><strong>Foundation (Must Know):</strong></p>
+                    <ul style="padding-left: 20px; margin-bottom: 20px;">
+                        <li>Maximum Depth, Invert Tree, Same Tree</li>
+                        <li>Binary Tree Traversals (In/Pre/Post/Level Order)</li>
+                        <li>Validate BST, Search/Insert/Delete in BST</li>
+                    </ul>
+                    
+                    <p style="margin-bottom: 15px;"><strong>Advanced (Build Upon):</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>Diameter, Balanced Tree, LCA</li>
+                        <li>Construct Tree, Good Nodes, Subtree</li>
+                        <li>Right Side View</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Print functionality
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                window.print();
+                e.preventDefault();
+            }
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

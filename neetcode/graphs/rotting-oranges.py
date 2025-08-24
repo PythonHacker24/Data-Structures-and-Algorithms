@@ -28,9 +28,9 @@ class Solution:
             
             for i in range(4):
                 keys = list(currRotten.keys())
-                nrow = currRotten[keys[0]][0] - dy[i]
-                ncol = currRotten[keys[0]][1] - dx[i]
                 time = keys[0]
+                nrow = currRotten[time][0] - dy[i]
+                ncol = currRotten[time][1] - dx[i]
                 maxTime = max(time, maxTime)
 
                 if nrow >= 0 and ncol >= 0 and nrow < ROWS and ncol < COLS and grid[nrow][ncol] == 1 and grid[nrow][ncol] != 0:
@@ -40,5 +40,7 @@ class Solution:
             
         if fresh != 0:
             return -1
-            
+
         return maxTime
+
+                    

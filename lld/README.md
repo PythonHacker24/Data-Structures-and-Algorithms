@@ -1,25 +1,60 @@
-## System Design Classics
+# System Design Interview Classics
 
-Design a URL Shortener (like bit.ly) - Tests database design, caching, and scalability concepts. Focus on URL encoding, collision handling, and expiration policies.
-Design a Chat System - Covers real-time communication, message storage, user presence, and notification systems. Consider WebSocket connections and message ordering.
-Design a Rate Limiter - Examines algorithm knowledge (token bucket, sliding window), distributed systems, and performance optimization.
-Design a Parking Lot System - Object-oriented design focused on inheritance, polymorphism, and state management for different vehicle types and parking spots.
+## System Design Basics
+- **URL Shortener (e.g., bit.ly)**  
+  - Tests: database design, caching, scalability  
+  - Key topics: URL encoding, collision handling, expiration policies  
+
+- **Chat System**  
+  - Covers: real-time communication, message storage, user presence, notifications  
+  - Consider: WebSocket connections, message ordering  
+
+- **Rate Limiter**  
+  - Algorithms: Token Bucket, Sliding Window  
+  - Covers: distributed systems, performance optimization  
+
+- **Parking Lot System**  
+  - Focus: Object-oriented design (inheritance, polymorphism, state management)  
+  - Entities: vehicles, parking spots, tickets  
+
+---
 
 ## Data Structure & Algorithm Heavy
+- **Cache System (LRU / LFU)**  
+  - Tests: hash maps, doubly linked lists, eviction policies  
 
-Design a Cache System (LRU/LFU) - Tests understanding of hash maps, doubly linked lists, and cache eviction policies.
-Design a File System - Involves tree structures, path resolution, and file operations with proper error handling.
-Design an In-Memory Database - Covers indexing, query processing, transaction handling, and memory management.
+- **File System**  
+  - Involves: tree structures, path resolution, file operations, error handling  
+
+- **In-Memory Database**  
+  - Covers: indexing, query processing, transaction handling, memory management  
+
+---
 
 ## Real-World Applications
+- **Notification System**  
+  - Multi-channel delivery: email, SMS, push  
+  - Features: priority queuing, retry mechanisms  
 
-Design a Notification System - Multi-channel delivery (email, SMS, push), priority queuing, and retry mechanisms.
-Design a Library Management System - Classic OOP design with user roles, book inventory, borrowing workflows, and fine calculations.
-Design a Ride Sharing Service (Driver-Rider matching) - Location-based services, matching algorithms, and state machines for trip lifecycle.
-Design a Food Delivery System - Restaurant management, order processing, delivery tracking, and payment integration.
+- **Library Management System**  
+  - OOP design: user roles, book inventory, borrowing workflows, fine calculations  
+
+- **Ride Sharing Service (Driver ↔ Rider Matching)**  
+  - Concepts: location-based services, matching algorithms, trip lifecycle (state machines)  
+
+- **Food Delivery System**  
+  - Covers: restaurant management, order processing, delivery tracking, payment integration  
+
+---
 
 ## Technical Deep Dives
+- **Load Balancer**  
+  - Algorithms: round-robin, weighted distribution  
+  - Includes: health checks, failover mechanisms  
 
-Design a Load Balancer - Algorithm implementation (round-robin, weighted), health checks, and failover mechanisms.
-Design a Search Engine - Indexing strategies, ranking algorithms, and query processing optimization.
-Design a Logging System - Log levels, formatting, rotation policies, and distributed log aggregation.
+- **Search Engine**  
+  - Topics: indexing strategies, ranking algorithms, query optimization  
+
+- **Logging System**  
+  - Features: log levels, formatting, rotation policies  
+  - Advanced: distributed log aggregation  
